@@ -5,8 +5,8 @@ import java.util.Arrays;
 public class ImmutableLinkedList implements ImmutableList {
 
     private static class Node {
-        public Object value;
-        public Node next;
+        private Object value;
+        private Node next;
 
         Node(Object value) {
             this.value = value;
