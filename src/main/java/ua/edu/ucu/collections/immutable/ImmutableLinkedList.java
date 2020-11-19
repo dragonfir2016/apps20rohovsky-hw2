@@ -2,31 +2,32 @@ package ua.edu.ucu.collections.immutable;
 
 import java.util.Arrays;
 
-public class ImmutableLinkedList implements ImmutableList{
+public class ImmutableLinkedList implements ImmutableList {
 
-    private static class Node{
+    private static class Node {
         public Object value;
         public Node next;
 
-        Node(Object value){
+        Node(Object value) {
             this.value = value;
             this.next = null;
         }
     }
+
     private int size;
     private final Node head;
 
-    public ImmutableLinkedList(){
+    public ImmutableLinkedList() {
         this.head = null;
         this.size = 0;
     }
 
-    private ImmutableLinkedList(Node node, int size){
+    private ImmutableLinkedList(Node node, int size) {
         this.head = node;
         this.size = size;
     }
 
-    public ImmutableLinkedList(Object[] array){
+    public ImmutableLinkedList(Object[] array) {
         if (array.length > 0) {
             this.head = new Node(array[0]);
             this.size = 1;
@@ -38,15 +39,14 @@ public class ImmutableLinkedList implements ImmutableList{
                 tempNode = oNode;
                 this.size++;
             }
-        }
-        else{
+        } else {
             this.size = 0;
             this.head = null;
         }
     }
 
-    private void checkId(int index){
-        if(index < 0 || index >= this.size){
+    private void checkId(int index) {
+        if (index < 0 || index >= this.size) {
             throw new IndexOutOfBoundsException();
         }
     }
@@ -68,17 +68,12 @@ public class ImmutableLinkedList implements ImmutableList{
 
     @Override
     public ImmutableLinkedList addAll(int index, Object[] c) {
-        if( this.size == 0 && index == -1){
-            return new ImmutableLinkedList(new Object[]{c});
-        }
-
-        if(index < 0 || index > this.size ){
+        if (index < 0 || index > this.size) {
             throw new IndexOutOfBoundsException();
         }
-        if(this.head == null) {
+        if (this.head == null) {
             return new ImmutableLinkedList(c);
         }
-
 
 
         Node headCopy = new Node(this.head.value);
@@ -92,7 +87,7 @@ public class ImmutableLinkedList implements ImmutableList{
             tempNode = tempNode.next;
         }
 
-        for(Object o : c){
+        for (Object o : c) {
             Node oNode = new Node(o);
             tempCopyNode.next = oNode;
             tempCopyNode = oNode;
@@ -104,7 +99,7 @@ public class ImmutableLinkedList implements ImmutableList{
             tempCopyNode = newNode;
             tempNode = tempNode.next;
         }
-        if(index == 0) {
+        if (index == 0) {
             ImmutableLinkedList preAns = new ImmutableLinkedList(headCopy, this.size + c.length);
             Object firstEL = preAns.getFirst();
             ImmutableLinkedList preAns2 = preAns.remove(0);
@@ -118,7 +113,7 @@ public class ImmutableLinkedList implements ImmutableList{
         checkId(index);
         Node tempNode = this.head;
         int i = 0;
-        while (tempNode.next != null && i < index){
+        while (tempNode.next != null && i < index) {
             tempNode = tempNode.next;
             i++;
         }
@@ -129,12 +124,12 @@ public class ImmutableLinkedList implements ImmutableList{
     public ImmutableLinkedList remove(int index) {
         checkId(index);
 
-        if(this.size == 1){
+        if (this.size == 1) {
             return new ImmutableLinkedList();
         }
 
         Node tempNode = this.head;
-        if (index == 0){
+        if (index == 0) {
             tempNode = tempNode.next;
         }
         Node headCopy = new Node(tempNode.value);
@@ -147,7 +142,7 @@ public class ImmutableLinkedList implements ImmutableList{
             tempNode = tempNode.next;
         }
 
-        if(index != 0 ){
+        if (index != 0) {
             tempNode = tempNode.next;
         }
 
@@ -162,7 +157,12 @@ public class ImmutableLinkedList implements ImmutableList{
 
     @Override
     public ImmutableLinkedList set(int index, Object e) {
-        checkId(index);
+        if (index < 0 || index > this.size) {
+            throw new IndexOutOfBoundsException();
+        }
+        if (this.size == 0){
+            return new ImmutableLinkedList(new Node(e), 1);
+        }
 
         Node tempNode = this.head;
         Node headCopy = new Node(tempNode.value);
@@ -177,7 +177,7 @@ public class ImmutableLinkedList implements ImmutableList{
 
         newCopyNode.value = e;
 
-        while (tempNode.next != null){
+        while (tempNode.next != null) {
             Node newNode = new Node(tempNode.next.value);
             newCopyNode.next = newNode;
             newCopyNode = newNode;
@@ -190,7 +190,7 @@ public class ImmutableLinkedList implements ImmutableList{
     public int indexOf(Object e) {
         Node tempNode = this.head;
         for (int i = 0; i < this.size; i++) {
-            if(tempNode.value.equals(e)){
+            if (tempNode.value.equals(e)) {
                 return i;
             }
             tempNode = tempNode.next;
@@ -225,32 +225,32 @@ public class ImmutableLinkedList implements ImmutableList{
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return Arrays.toString(this.toArray()).substring(1,
                 Arrays.toString(this.toArray()).length() - 1);
     }
 
-    public ImmutableLinkedList addFirst(Object e){
+    public ImmutableLinkedList addFirst(Object e) {
         return this.addAll(0, new Object[]{e});
     }
 
-    public ImmutableLinkedList addLast(Object e){
-        return this.addAll(this.size,new Object[]{e});
+    public ImmutableLinkedList addLast(Object e) {
+        return this.addAll(this.size, new Object[]{e});
     }
 
-    public Object getFirst(){
+    public Object getFirst() {
         return this.get(0);
     }
 
-    public Object getLast(){
+    public Object getLast() {
         return this.get(this.size - 1);
     }
 
-    public ImmutableLinkedList removeFirst(){
+    public ImmutableLinkedList removeFirst() {
         return this.remove(0);
     }
 
-    public ImmutableLinkedList removeLast(){
+    public ImmutableLinkedList removeLast() {
         return this.remove(this.size - 1);
     }
 }

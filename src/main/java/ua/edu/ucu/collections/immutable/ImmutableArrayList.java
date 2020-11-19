@@ -2,22 +2,22 @@ package ua.edu.ucu.collections.immutable;
 
 import java.util.Arrays;
 
-public class ImmutableArrayList implements ImmutableList{
+public class ImmutableArrayList implements ImmutableList {
     private final Object[] array;
     private final int size;
 
-    public ImmutableArrayList(){
+    public ImmutableArrayList() {
         this.array = new Object[0];
         this.size = this.array.length;
     }
 
-    public ImmutableArrayList(Object[] array){
+    public ImmutableArrayList(Object[] array) {
         this.array = array.clone();
         this.size = this.array.length;
     }
 
-    private void checkId(int id){
-        if(id < 0 || id >= this.size){
+    private void checkId(int id) {
+        if (id < 0 || id >= this.size) {
             throw new IndexOutOfBoundsException();
         }
     }
@@ -39,12 +39,12 @@ public class ImmutableArrayList implements ImmutableList{
 
     @Override
     public ImmutableArrayList addAll(int index, Object[] c) {
-        if(index < 0 || index > this.size){
+        if (index < 0 || index > this.size) {
             throw new IndexOutOfBoundsException();
         }
         Object[] ansArr = new Object[this.size + c.length];
         System.arraycopy(this.array, 0, ansArr, 0, index);
-        System.arraycopy(c, 0, ansArr, index, c.length );
+        System.arraycopy(c, 0, ansArr, index, c.length);
         System.arraycopy(this.array, index, ansArr, index + c.length, this.size - index);
         return new ImmutableArrayList(ansArr);
     }
@@ -66,7 +66,13 @@ public class ImmutableArrayList implements ImmutableList{
 
     @Override
     public ImmutableArrayList set(int index, Object e) {
-        checkId(index);
+        if (index < 0 || index > this.size) {
+            throw new IndexOutOfBoundsException();
+        }
+        if(this.size == 0){
+            return new ImmutableArrayList(new Object[]{e});
+        }
+
         Object[] tempArray = this.array.clone();
         tempArray[index] = e;
         return new ImmutableArrayList(tempArray);
@@ -98,7 +104,7 @@ public class ImmutableArrayList implements ImmutableList{
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return Arrays.toString(this.array).substring(1,
                 Arrays.toString(this.array).length() - 1);
     }
