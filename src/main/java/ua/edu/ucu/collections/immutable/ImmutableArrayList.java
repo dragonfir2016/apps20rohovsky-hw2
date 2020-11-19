@@ -45,7 +45,8 @@ public class ImmutableArrayList implements ImmutableList {
         Object[] ansArr = new Object[this.size + c.length];
         System.arraycopy(this.array, 0, ansArr, 0, index);
         System.arraycopy(c, 0, ansArr, index, c.length);
-        System.arraycopy(this.array, index, ansArr, index + c.length, this.size - index);
+        System.arraycopy(this.array, index, ansArr, index + c.length,
+                this.size - index);
         return new ImmutableArrayList(ansArr);
     }
 
@@ -60,7 +61,8 @@ public class ImmutableArrayList implements ImmutableList {
         checkId(index);
         Object[] ansArr = new Object[this.size - 1];
         System.arraycopy(this.array, 0, ansArr, 0, index);
-        System.arraycopy(this.array, index + 1, ansArr, index, this.size - index - 1);
+        System.arraycopy(this.array, index + 1, ansArr, index,
+                this.size - index - 1);
         return new ImmutableArrayList(ansArr);
     }
 
@@ -69,7 +71,7 @@ public class ImmutableArrayList implements ImmutableList {
         if (index < 0 || index > this.size) {
             throw new IndexOutOfBoundsException();
         }
-        if(this.size == 0){
+        if (this.size == 0) {
             return new ImmutableArrayList(new Object[]{e});
         }
 

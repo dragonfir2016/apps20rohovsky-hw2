@@ -100,10 +100,11 @@ public class ImmutableLinkedList implements ImmutableList {
             tempNode = tempNode.next;
         }
         if (index == 0) {
-            ImmutableLinkedList preAns = new ImmutableLinkedList(headCopy, this.size + c.length);
+            ImmutableLinkedList preAns = new ImmutableLinkedList(headCopy,
+                    this.size + c.length);
             Object firstEL = preAns.getFirst();
-            ImmutableLinkedList preAns2 = preAns.remove(0);
-            return preAns2.add(c.length, firstEL);
+            ImmutableLinkedList preAnswer = preAns.remove(0);
+            return preAnswer.add(c.length, firstEL);
         }
         return new ImmutableLinkedList(headCopy, this.size + c.length);
     }
@@ -160,7 +161,7 @@ public class ImmutableLinkedList implements ImmutableList {
         if (index < 0 || index > this.size) {
             throw new IndexOutOfBoundsException();
         }
-        if (this.size == 0){
+        if (this.size == 0) {
             return new ImmutableLinkedList(new Node(e), 1);
         }
 
